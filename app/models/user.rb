@@ -1,7 +1,10 @@
 class User < ApplicationRecord
     has_secure_password
 
-    validates :email, presence: true
+
+  validates :email, presence: true, uniqueness: true
+
+
     before_create :set_status_to_active
     def update_last_login_time
       update_attribute(:last_login_at, Time.current)

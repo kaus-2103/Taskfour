@@ -9,9 +9,11 @@ class UsersController < ApplicationController
     if @user.save
       redirect_to root_path, notice: "User created successfully"
     else
-      render :new
+      flash[:alert] = "Error occurred: " + @user.errors.full_messages.join(", ")
+      redirect_to root_path
     end
   end
+  
 
 
   def delete_selected
