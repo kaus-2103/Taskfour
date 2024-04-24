@@ -7,11 +7,19 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
-User.create!(
-  name: "admin",
-  password: "admin",
-  password_confirmation: "admin",
-  email: "admin@admin.com",
-  status: "Active",
-  authentication: true
-)
+# db/seeds.rb
+
+# Create an admin user
+begin
+  User.create!(
+    name: "admin",
+    password: "admin",
+    password_confirmation: "admin",
+    email: "admin@admin.com",
+    status: "Active",
+    authentication: true
+  )
+  puts "Admin user created successfully!"
+rescue StandardError => e
+  puts "Error creating admin user: #{e.message}"
+end
