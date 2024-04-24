@@ -1,0 +1,9 @@
+
+$('.block-user-btn').on('ajax:success', function(event) {
+  var userRow = $(this).closest('tr');
+  var statusCell = userRow.find('.user-status'); // Assuming this cell contains the user's status
+  statusCell.text('Blocked');
+  alert('User successfully blocked.');
+}).on('ajax:error', function(event) {
+  alert('Failed to block user.');
+});

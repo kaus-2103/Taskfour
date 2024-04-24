@@ -1,0 +1,8 @@
+
+$('.delete-user-btn').on('ajax:success', function(event) {
+  var userRow = $(this).closest('tr');
+  userRow.remove();
+  alert('User successfully deleted.');
+}).on('ajax:error', function(event) {
+  alert('Failed to delete user.');
+});

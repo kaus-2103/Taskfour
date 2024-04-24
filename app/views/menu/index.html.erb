@@ -1,0 +1,89 @@
+<div class="action-buttons">
+  <%= form_tag(delete_selected_users_path, method: :delete, remote: true, data: { confirm: 'Are you sure you want to delete the selected users?' }, id: 'delete-selected-form') do %>
+    <%= submit_tag 'Delete ', class: 'btn btn-danger', id: 'delete-selected-button' %>
+  <% end %>
+
+  <%= form_tag(block_selected_users_path, method: :put, remote: true, data: { confirm: 'Are you sure you want to block the selected users?' }, id: 'block-selected-form') do %>
+    <%= submit_tag 'Block ', class: 'btn btn-warning', id: 'block-selected-button' %>
+  <% end %>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>
+        <%= check_box_tag :select_all, nil, false, id: 'select-all-checkbox' %>
+      </th>
+      <th>Name (Position)</th>
+      <th>Email</th>
+      <th>Last Login At</th>
+      <th>Registration Time</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td>
+          <%= check_box_tag 'selected_user_ids[]', user.id, false, class: 'user-checkbox' %>
+        </td>
+        <td><%= "#{user.name} (#{user.position})" %></td>
+        <td><%= user.email %></td>
+        <td><%= user.last_login_at ? user.last_login_at.strftime("%B %d, %Y %H:%M") : 'Never logged in' %></td>
+        <td><%= user.created_at.strftime("%B %d, %Y %H:%M") %></td>
+        <td><%= user.status %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const selectAllCheckbox = document.getElementById('select-all-checkbox');
+  const userCheckboxes = document.querySelectorAll('.user-checkbox');
+  const blockSelectedButton = document.getElementById('block-selected-button');
+  const deleteSelectedButton = document.getElementById('delete-selected-button');
+  const blockSelectedForm = document.getElementById('block-selected-form');
+  const deleteSelectedForm = document.getElementById('delete-selected-form');
+
+  selectAllCheckbox.addEventListener('click', function() {
+    userCheckboxes.forEach(function(checkbox) {
+      checkbox.checked = selectAllCheckbox.checked;
+    });
+  });
+
+  blockSelectedButton.addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+    const selectedUserIds = [];
+    userCheckboxes.forEach(function(checkbox) {
+      if (checkbox.checked) {
+        selectedUserIds.push(checkbox.value);
+      }
+    });
+    const selectedUserIdsInput = document.createElement('input');
+    selectedUserIdsInput.setAttribute('type', 'hidden');
+    selectedUserIdsInput.setAttribute('name', 'selected_user_ids');
+    selectedUserIdsInput.setAttribute('value', JSON.stringify(selectedUserIds));
+    blockSelectedForm.appendChild(selectedUserIdsInput);
+    blockSelectedForm.submit();
+  });
+
+  deleteSelectedButton.addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+    const selectedUserIds = [];
+    userCheckboxes.forEach(function(checkbox) {
+      if (checkbox.checked) {
+        selectedUserIds.push(checkbox.value);
+      }
+    });
+    // Set the selected user ids in a hidden input field
+    const selectedUserIdsInput = document.createElement('input');
+    selectedUserIdsInput.setAttribute('type', 'hidden');
+    selectedUserIdsInput.setAttribute('name', 'selected_user_ids');
+    selectedUserIdsInput.setAttribute('value', JSON.stringify(selectedUserIds));
+    deleteSelectedForm.appendChild(selectedUserIdsInput);
+    // Submit the form
+    deleteSelectedForm.submit();
+  });
+});
+</script>
