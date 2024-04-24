@@ -69,14 +69,13 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   deleteSelectedButton.addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent the default form submission
+    event.preventDefault(); 
     const selectedUserIds = [];
     userCheckboxes.forEach(function(checkbox) {
       if (checkbox.checked) {
         selectedUserIds.push(checkbox.value);
       }
     });
-    // Set the selected user ids in a hidden input field
     const selectedUserIdsInput = document.createElement('input');
     selectedUserIdsInput.setAttribute('type', 'hidden');
     selectedUserIdsInput.setAttribute('name', 'selected_user_ids');
