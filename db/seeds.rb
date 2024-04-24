@@ -17,7 +17,8 @@ begin
     password_confirmation: "admin",
     email: "admin@admin.com",
     status: "Active",
-    authentication: true
+    authentication: true,
+    position: "admin"
   )
   puts "Admin user created successfully!"
 rescue StandardError => e
