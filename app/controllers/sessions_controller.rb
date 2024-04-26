@@ -13,8 +13,9 @@ class SessionsController < ApplicationController
           redirect_to signin_path, notice:"You have been Blocked"
         elsif user.authenticate(params[:password]) && user.authentication == true
           session[:user_id] = user.id
+          session[:current_user_id] = user.id 
           user.update_last_login_time
-          redirect_to menu_path, notice: "Logged in successfully!"
+          redirect_to menu_path(current_user_id: user.id), notice: "Logged in successfully!" 
         else
           redirect_to signin_path, notice:"Invalid email or password"
         end
@@ -22,6 +23,7 @@ class SessionsController < ApplicationController
         redirect_to signin_path, notice:"Invalid email or password"
       end
     end
+    
     
   
     def destroy
