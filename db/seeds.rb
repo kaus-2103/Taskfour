@@ -11,16 +11,59 @@
 
 # Create an admin user
 begin
-  User.create!(
-    name: "admin",
-    password: "admin",
-    password_confirmation: "admin",
-    email: "admin@admin.com",
-    status: "Active",
-    authentication: true,
-    position: "admin"
-  )
-  puts "Admin user created successfully!"
+  users = [
+    {
+      name: "admin",
+      password: "admin",
+      password_confirmation: "admin",
+      email: "admin@admin.com",
+      status: "Active",
+      authentication: true,
+      position: "admin"
+    },
+    {
+      name: "user1",
+      password: "password1",
+      password_confirmation: "password1",
+      email: "user1@example.com",
+      status: "Active",
+      authentication: true,
+      position: "user"
+    },
+    {
+      name: "user2",
+      password: "password1",
+      password_confirmation: "password1",
+      email: "user2@example.com",
+      status: "Active",
+      authentication: false,
+      position: "user"
+    },
+    {
+      name: "user3",
+      password: "password1",
+      password_confirmation: "password1",
+      email: "user3@example.com",
+      status: "Active",
+      authentication: false,
+      position: "user"
+    },
+    {
+      name: "user4",
+      password: "password1",
+      password_confirmation: "password1",
+      email: "user4@example.com",
+      status: "Active",
+      authentication: false,
+      position: "user"
+    }
+    # Add more user hashes as needed
+  ]
+
+  users.each do |user_params|
+    User.create!(user_params)
+    puts "User '#{user_params[:name]}' created successfully!"
+  end
 rescue StandardError => e
-  puts "Error creating admin user: #{e.message}"
+  puts "Error creating user: #{e.message}"
 end
