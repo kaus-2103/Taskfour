@@ -22,6 +22,8 @@ Rails.application.routes.draw do
 
   put '/users/block_selected', to: 'users#block_selected', as: 'block_selected_users'
 
+  put '/users/unblock_selected', to: 'users#unblock_selected', as: 'unblock_selected_users'
+
 
   
  
