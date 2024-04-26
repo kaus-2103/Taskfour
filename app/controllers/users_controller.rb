@@ -45,6 +45,20 @@ class UsersController < ApplicationController
     end
     redirect_to menu_path
   end
+
+  def unblock_selected
+    selected_user_ids = JSON.parse(params[:selected_user_ids])
+    if selected_user_ids.present?
+      selected_user_ids.each do |user_id|
+        user = User.find(user_id)
+        user.update(status: 'Active')
+      end
+      flash[:notice] = 'Selected users were successfully Activated.'
+    else
+      flash[:alert] = 'No users selected for Activation.'
+    end
+    redirect_to menu_path
+  end
   
   
 

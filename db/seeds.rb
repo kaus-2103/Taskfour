@@ -13,5 +13,5 @@ User.create!(
   password_confirmation: "admin",
   email: "admin@admin.com",
   status: "Active",
-  authentication: true
+  authentication:true
 )

@@ -6,6 +6,10 @@
   <%= form_tag(block_selected_users_path, method: :put, remote: true, data: { confirm: 'Are you sure you want to block the selected users?' }, id: 'block-selected-form') do %>
     <%= submit_tag 'Block ', class: 'btn btn-warning', id: 'block-selected-button' %>
   <% end %>
+
+  <%= form_tag(unblock_selected_users_path, method: :put, remote: true, data: { confirm: 'Are you sure you want to activate the selected users?' }, id: 'unblock-selected-form') do %>
+    <%= submit_tag 'Activate ', class: 'btn btn-warning', id: 'unblock-selected-button' %>
+  <% end %>
 </div>
 
 <table class="table">
@@ -43,8 +47,10 @@ document.addEventListener('DOMContentLoaded', function() {
   const userCheckboxes = document.querySelectorAll('.user-checkbox');
   const blockSelectedButton = document.getElementById('block-selected-button');
   const deleteSelectedButton = document.getElementById('delete-selected-button');
+  const unblockSelectedButton = document.getElementById('unblock-selected-button');
   const blockSelectedForm = document.getElementById('block-selected-form');
   const deleteSelectedForm = document.getElementById('delete-selected-form');
+  const unblockSelectedForm = document.getElementById('unblock-selected-form');
 
   selectAllCheckbox.addEventListener('click', function() {
     userCheckboxes.forEach(function(checkbox) {
@@ -66,6 +72,22 @@ document.addEventListener('DOMContentLoaded', function() {
     selectedUserIdsInput.setAttribute('value', JSON.stringify(selectedUserIds));
     blockSelectedForm.appendChild(selectedUserIdsInput);
     blockSelectedForm.submit();
+  });
+
+  unblockSelectedButton.addEventListener('click', function(event) {
+    event.preventDefault(); 
+    const selectedUserIds = [];
+    userCheckboxes.forEach(function(checkbox) {
+      if (checkbox.checked) {
+        selectedUserIds.push(checkbox.value);
+      }
+    });
+    const selectedUserIdsInput = document.createElement('input');
+    selectedUserIdsInput.setAttribute('type', 'hidden');
+    selectedUserIdsInput.setAttribute('name', 'selected_user_ids');
+    selectedUserIdsInput.setAttribute('value', JSON.stringify(selectedUserIds));
+    unblockSelectedForm.appendChild(selectedUserIdsInput);
+    unblockSelectedForm.submit();
   });
 
   deleteSelectedButton.addEventListener('click', function(event) {
